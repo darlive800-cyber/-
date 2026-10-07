@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Дина, ты справишься ❤️</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: linear-gradient(145deg, #160b18, #42152f, #7d1748);
+    color: white;
+    overflow-x: hidden;
+}
+
+button {
+    font: inherit;
+}
+
+.screen {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 18px;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+}
+
+.card {
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 30px;
+    padding: 28px 22px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    backdrop-filter: blur(12px);
+}
+
+.heart {
+    font-size: 90px;
+    animation: heartbeat 1.2s infinite;
+}
+
+@keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+}
+
+h1 {
+    font-size: 32px;
+    margin: 15px 0 10px;
+}
+
+h2 {
+    font-size: 25px;
+    margin: 10px 0;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.55;
+    opacity: .92;
+}
+
+.small {
+    font-size: 13px;
+    opacity: .55;
+    margin-top: 20px;
+}
+
+.main-button {
+    width: 100%;
+    min-height: 54px;
+    border: none;
+    border-radius: 18px;
+    margin-top: 18px;
+    padding: 14px 20px;
+    background: white;
+    color: #721642;
+    font-weight: 800;
+    font-size: 17px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+}
+
+.main-button:active {
+    transform: scale(.97);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ПРОГРЕСС */
+
+.progress-wrapper {
+    margin: 18px 0;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    opacity: .8;
+}
+
+.progress {
+    width: 100%;
+    height: 9px;
+    background: rgba(255,255,255,.18);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: white;
+    border-radius: 20px;
+    transition: width .4s ease;
+}
+
+/* ВОПРОС */
+
+.question {
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.answers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.answer {
+    width: 100%;
+    min-height: 54px;
+    border-radius: 17px;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(255,255,255,.09);
+    color: white;
+    padding: 12px 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.answer:active {
+    transform: scale(.98);
+}
+
+.answer.correct {
+    background: rgba(50,220,130,.35);
+    border-color: rgba(100,255,170,.7);
+}
+
+.answer.wrong {
+    background: rgba(255,70,100,.35);
+    border-color: rgba(255,130,150,.7);
+}
+
+.answer:disabled {
+    cursor: default;
+}
+
+.feedback {
+    min-height: 50px;
+    margin-top: 15px;
+    font-weight: 700;
+}
+
+/* ФИНАЛ */
+
+.final-heart {
+    font-size: 105px;
+    animation: heartbeat 1.2s infinite;
+}
+
+.message {
+    text-align: left;
+    margin-top: 20px;
+    padding: 22px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+}
+
+.message p {
+    margin: 8px 0 17px;
+}
+
+.signature {
+    text-align: right;
+    font-weight: 700;
+}
+
+/* ЛЕПЕСТКИ */
+
+.petal {
+    position: fixed;
+    top: -30px;
+    pointer-events: none;
+    z-index: 100;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(110vh) rotate(600deg);
+        opacity: 0;
+    }
+}
+
+/* ЗВЁЗДЫ */
+
+.star {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    opacity: .5;
+    animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: .15; }
+    to { opacity: .8; }
+}
+
+@media (max-width: 380px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .heart {
+        font-size: 75px;
+    }
+
+    .card {
+        padding: 23px 17px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ЗВЁЗДЫ -->
+<div class="star" style="left:10%;top:12%"></div>
+<div class="star" style="left:24%;top:22%"></div>
+<div class="star" style="left:78%;top:14%"></div>
+<div class="star" style="left:90%;top:31%"></div>
+<div class="star" style="left:60%;top:8%"></div>
+<div class="star" style="left:40%;top:35%"></div>
+
+
+<!-- ==================== СТАРТ ==================== -->
+
+<section id="startScreen" class="screen">
+
+<div class="container">
+
+<div class="card">
+
+<div class="heart">❤️</div>
+
+<h1>Дина, это для тебя</h1>
+
+<p>
+Я знаю, что ты готовишься к завтрашнему уроку.
+И поэтому решил немного тебя поддержать.
+</p>
+
+<p>
+Перед тобой маленькая игра.
+Пройди её до конца — там тебя ждёт кое-что от меня. 💕
+</p>
+
+<button id="startButton" class="main-button">
+Начать подготовку ✨
+</button>
+
+<div class="small">
+Сделано специально для Дины ❤️
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================== ИГРА ==================== -->
+
+<section id="gameScreen" class="screen hidden">
+
+<div class="container">
+
+<div class="card">
+
+<h2>Подготовка Дины 📚</h2>
+
+<p>
+Спокойно отвечай на вопросы.
+Ошибаться можно — главное не сдаваться ❤️
+</p>
+
+<div class="progress-wrapper">
+
+<div class="progress-info">
+<span id="questionNumber">Вопрос 1 из 5</span>
+<span id="score">❤️ 0</span>
+</div>
+
+<div class="progress">
+<div id="progressBar" class="progress-bar"></div>
+</div>
+
+</div>
+
+<div id="question" class="question"></div>
+
+<div id="answers" class="answers"></div>
+
+<div id="feedback" class="feedback"></div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================== ФИНАЛ ==================== -->
+
+<section id="finishScreen" class="screen hidden">
+
+<div class="container">
+
+<div class="card">
+
+<div class="final-heart">💖</div>
+
+<h1>Дина, ты справилась!</h1>
+
+<p>
+Вот видишь? Ты смогла ❤️
+А теперь самое главное.
+</p>
+
+<div class="message">
+
+<p>
+Не переживай из-за завтрашнего урока.
+Ты подготовилась и обязательно справишься.
+</p>
+
+<p>
+Если вдруг начнёшь волноваться — просто вспомни,
+что где-то есть человек, который в тебя очень верит.
+</p>
+
+<p>
+<b>
+Я верю в тебя, Дина. ❤️
+</b>
+</p>
+
+<p>
+Ты умница. Отдохни сегодня, выдохни,
+а завтра просто сделай всё так, как умеешь.
+</p>
+
+<div class="signature">
+Твой Айбек ❤️
+</div>
+
+</div>
+
+<button id="againButton" class="main-button">
+Пройти ещё раз 💕
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* =========================================
+   ИГРА
+========================================= */
+
+const questions = [
+
+{
+    question: "Дина начинает волноваться перед уроком. Что лучше сделать?",
+    answers: [
+        "Начать паниковать 😭",
+        "Сделать глубокий вдох и спокойно продолжить ❤️",
+        "Бросить подготовку"
+    ],
+    correct: 1
+},
+
+{
+    question: "Если завтра она забудет часть ответа, что делать?",
+    answers: [
+        "Сдаться",
+        "Сказать, что ничего не знает",
+        "Спокойно подумать и продолжить 🌷"
+    ],
+    correct: 2
+},
+
+{
+    question: "Что Айбек хочет сказать Дине перед завтрашним уроком?",
+    answers: [
+        "Я верю в тебя ❤️",
+        "Не готовься",
+        "Ты не справишься"
+    ],
+    correct: 0
+},
+
+{
+    question: "Что важнее идеального ответа?",
+    answers: [
+        "Никогда не ошибаться",
+        "Спокойствие и уверенность 💕",
+        "Переживать из-за каждой ошибки"
+    ],
+    correct: 1
+},
+
+{
+    question: "Как Дина должна войти завтра на урок?",
+    answers: [
+        "С мыслями «я не смогу»",
+        "С уверенностью: «Я постаралась и справлюсь» ❤️",
+        "Хотеть сразу уйти"
+    ],
+    correct: 1
+}
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+
+
+/* ЭЛЕМЕНТЫ */
+
+const startScreen = document.getElementById("startScreen");
+const gameScreen = document.getElementById("gameScreen");
+const finishScreen = document.getElementById("finishScreen");
+
+const startButton = document.getElementById("startButton");
+const againButton = document.getElementById("againButton");
+
+const questionElement = document.getElementById("question");
+const answersElement = document.getElementById("answers");
+
+const questionNumber = document.getElementById("questionNumber");
+const scoreElement = document.getElementById("score");
+
+const progressBar = document.getElementById("progressBar");
+const feedback = document.getElementById("feedback");
+
+
+/* ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ */
+
+function showScreen(screen) {
+
+    startScreen.classList.add("hidden");
+    gameScreen.classList.add("hidden");
+    finishScreen.classList.add("hidden");
+
+    screen.classList.remove("hidden");
+}
+
+
+/* НАЧАЛО */
+
+function startGame() {
+
+    currentQuestion = 0;
+    score = 0;
+
+    showScreen(gameScreen);
+
+    loadQuestion();
+}
+
+
+/* ЗАГРУЗКА ВОПРОСА */
+
+function loadQuestion() {
+
+    const item = questions[currentQuestion];
+
+    questionElement.textContent = item.question;
+
+    answersElement.innerHTML = "";
+
+    feedback.textContent = "";
+
+    questionNumber.textContent =
+        "Вопрос " + (currentQuestion + 1) +
+        " из " + questions.length;
+
+    scoreElement.textContent =
+        "❤️ " + score;
+
+    const progress =
+        (currentQuestion / questions.length) * 100;
+
+    progressBar.style.width = progress + "%";
+
+
+    item.answers.forEach((answerText, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "answer";
+
+        button.type = "button";
+
+        button.textContent = answerText;
+
+        button.addEventListener("click", function() {
+
+            chooseAnswer(index, button);
+
+        });
+
+        answersElement.appendChild(button);
+
+    });
+
+}
+
+
+/* ОТВЕТ */
+
+function chooseAnswer(index, clickedButton) {
+
+    const correct =
+        questions[currentQuestion].correct;
+
+    const buttons =
+        answersElement.querySelectorAll("button");
+
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
+
+
+    if (index === correct) {
+
+        score++;
+
+        clickedButton.classList.add("correct");
+
+        feedback.textContent =
+            "Правильно! Я знал, что ты справишься ❤️";
+
+    } else {
+
+        clickedButton.classList.add("wrong");
+
+        buttons[correct].classList.add("correct");
+
+        feedback.textContent =
+            "Ничего страшного. Ошибаться — нормально 💕";
+
+    }
+
+
+    scoreElement.textContent =
+        "❤️ " + score;
+
+
+    setTimeout(function() {
+
+        currentQuestion++;
+
+        if (currentQuestion >= questions.length) {
+
+            finishGame();
+
+        } else {
+
+            loadQuestion();
+
+        }
+
+    }, 1000);
+
+}
+
+
+/* ФИНИШ */
+
+function finishGame() {
+
+    progressBar.style.width = "100%";
+
+    createPetals();
+
+    setTimeout(function() {
+
+        showScreen(finishScreen);
+
+    }, 500);
+
+}
+
+
+/* ЛЕПЕСТКИ */
+
+function createPetals() {
+
+    const symbols = [
+        "❤️",
+        "💖",
+        "💕",
+        "🌸",
+        "✨"
+    ];
+
+    for (let i = 0; i < 35; i++) {
+
+        const petal =
+            document.createElement("div");
+
+        petal.className = "petal";
+
+        petal.textContent =
+            symbols[
+                Math.floor(
+                    Math.random() * symbols.length
+                )
+            ];
+
+        petal.style.left =
+            Math.random() * 100 + "vw";
+
+        petal.style.fontSize =
+            (15 + Math.random() * 15) + "px";
+
+        petal.style.animationDuration =
+            (2 + Math.random() * 3) + "s";
+
+        petal.style.animationDelay =
+            Math.random() * .8 + "s";
+
+        document.body.appendChild(petal);
+
+        setTimeout(function() {
+
+            petal.remove();
+
+        }, 6000);
+
+    }
+
+}
+
+
+/* КНОПКИ */
+
+startButton.addEventListener(
+    "click",
+    startGame
+);
+
+againButton.addEventListener(
+    "click",
+    startGame
+);
+
+</script>
+
+</body>
+</html>
